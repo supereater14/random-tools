@@ -7,10 +7,11 @@
  * This program generates a given number of random numbers. It can generate both
  * integer and real numbers.
  *
- * Usage: randomnum {-hr} {-n count} [Lower bound] [Upper bound]
+ * Usage: randomnum {-hrp} {-n count} [Lower bound] [Upper bound]
  * Command-line options:
  * 	-h: Print usage message and exit, this supercedes all other options
  * 	-r: Generate real numbers, default is integers
+ * 	-p: Uses a pseudorandom generator, instead of the default hardware RNG
  * 	-n count: Specifies number of numbers to generate, default 1.
  * 		This must be positive. When multiple numbers are generated, each will be
  * 		on a new line.
@@ -34,20 +35,22 @@ void print_usage_message(char *name){
 		<< " {-hr} {-n count} [Lower bound] [Upper bound]\n"
 		<< "\nOptions:\n"
 		<< "\t-h: Print usage message and exit\n"
-		<< "\t-n: Number of random numbers to generate\n"
-		<< "\t-r: Choose real numbers, rather than integers\n";
+		<< "\t-r: Choose real numbers, rather than integers\n"
+		<< "\t-p: Use a pseudorandom generator, rather than the hardware RNG\n"
+		<< "\t-n count: Number of random numbers to generate\n";
 }
 
 int main(int argc, char **argv){
 	/* Configuration parameters */
 	long count = 1;
 	int real = 0;
+	int use_pseudo = 0;
 
 	/* Read args */
 	int read_flag;
 	char *check_c;
 	opterr = 0;
-	while((read_flag = getopt(argc, argv, "hn:r")) != -1){
+	while((read_flag = getopt(argc, argv, "hrpn:")) != -1){
 		switch(read_flag){
 			case 'h':
 				print_usage_message(argv[0]);
@@ -67,6 +70,9 @@ int main(int argc, char **argv){
 				break;
 			case 'r':
 				real = 1;
+				break;
+			case 'p':
+				use_pseudo = 1;
 				break;
 			case '?':
 			default:
@@ -141,17 +147,26 @@ int main(int argc, char **argv){
 
 	/* Generate numbers */
 	std::random_device rng;
+	std::mt19937_64 prng(rng());
 	if(real){
 		std::uniform_real_distribution<double>
 			dist(lower_bound.f, upper_bound.f);
 		for(long i = 0; i < count; i++){
-			std::cout << dist(rng) << std::endl;
+			if(use_pseudo){
+				std::cout << dist(prng) << std::endl;
+			} else{
+				std::cout << dist(rng) << std::endl;
+			}
 		}
 	} else{
 		std::uniform_int_distribution<long>
 			dist(lower_bound.l, upper_bound.l);
 		for(long i = 0; i < count; i++){
-			std::cout << dist(rng) << std::endl;
+			if(use_pseudo){
+				std::cout << dist(prng) << std::endl;
+			} else{
+				std::cout << dist(rng) << std::endl;
+			}
 		}
 	}
 

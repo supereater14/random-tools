@@ -12,6 +12,7 @@
  * Usage: shuffle {-hf} {items...}
  * Command-line options:
  * 	-h: Prints a usage message and exits, this supercedes all other options
+ * 	-p: Uses a pseudorandom generator, rather than the default hardware RNG
  * 	-f file: Specifies a list file to use. When this option is given, items
  * 		specified as arguments are ignored.
  * 	A list of items may be supplied after these options.
@@ -28,21 +29,26 @@
 void print_usage_message(char *name){
 	std::cerr << "Usage: " << name << " {-hf} {item1 item2 ...}\n\n"
 		<< "\t-h: Print usage message and exit\n"
+		<< "\t-p: Use a pseudorandom generator, rather than the hardware RNG\n"
 		<< "\t-f: File to read list from (if given, item list is ignored)\n";
 }
 
 int main(int argc, char **argv){
 	/* Configuration */
+	int use_pseudo = 0;
 	int read_file = 0;
 	char *list_filename = nullptr;
 
 	/* Read arguments */
 	char read_arg;
-	while((read_arg = getopt(argc, argv, "hn:df:")) != -1){
+	while((read_arg = getopt(argc, argv, "hpf:")) != -1){
 		switch(read_arg){
 			case 'h':
 				print_usage_message(argv[0]);
 				return 0;
+			case 'p':
+				use_pseudo = 1;
+				break;
 			case 'f':
 				read_file = 1;
 				list_filename = optarg;
@@ -93,13 +99,19 @@ int main(int argc, char **argv){
 	 * to zero with size_type isn't really practical
 	 */
 	std::random_device rng;
+	std::mt19937_64 prng(rng());
 	for(std::vector<std::string>::size_type i = 0;
 			i < shuffle_list.size();
 			i++){
 		std::uniform_int_distribution<std::vector<std::string>::size_type>
 			selector(i, shuffle_list.size() - 1);
-		std::iter_swap(shuffle_list.begin() + i,
-			shuffle_list.begin() + selector(rng));
+		if(use_pseudo){
+			std::iter_swap(shuffle_list.begin() + i,
+				shuffle_list.begin() + selector(prng));
+		} else{
+			std::iter_swap(shuffle_list.begin() + i,
+				shuffle_list.begin() + selector(rng));
+		}
 	}
 
 	/* Print shuffled list */

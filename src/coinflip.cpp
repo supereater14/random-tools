@@ -8,12 +8,13 @@
  * and the sequence of flips can be printed. The total number of heads and tails
  * can also be printed at the end.
  *
- * Usage: coinflip -hnr {# of flips}
+ * Usage: coinflip -hnrp {# of flips}
  * Command-line options:
  * 	-h: Print a usage message and exit, this supercedes all other options
  * 	-n: Supresses printing of coin flips, default is to print con flips using H
  * 		and T for heads and tails.
  * 	-r: Prints a final report of heads and tails at the end of the run
+ * 	-p: Use a pseudorandom generator, rather than a hardware RNG
  * 	After these options, the number of flips to perform may be given, default 1.
  */
 
@@ -29,33 +30,38 @@
 void print_usage_message(char *name){
 	std::cerr << "Usage: "
 		<< name
-		<< " {-hnr} {# of flips}\n"
+		<< " {-hnrp} {# of flips}\n"
 		<< "\nOptions:\n"
 		<< "\t-h: Print usage message and exit\n"
 		<< "\t-n: Suppress printing of individual flips\n"
-		<< "\t-r: Print count of total flips at the end\n";
+		<< "\t-r: Print count of total flips at the end\n"
+		<< "\t-p: Use a pseudorandom RNG, instead of a hardware RNG\n";
 }
 
 int main(int argc, char **argv){
 	/* Configuration parameters */
 	int print_flips = 1;
 	int print_results = 0;
+	int use_pseudo = 0;
 	long flips = 1;
 
 	/* Read args */
 	int read_flag;
 	opterr = 0;
-	while((read_flag = getopt(argc, argv, "hnr")) != -1){
+	while((read_flag = getopt(argc, argv, "hnrp")) != -1){
 		switch(read_flag){
+			case 'h':
+				print_usage_message(argv[0]);
+				return 0;
+				break;
 			case 'n':
 				print_flips = 0;
 				break;
 			case 'r':
 				print_results = 1;
 				break;
-			case 'h':
-				print_usage_message(argv[0]);
-				return 0;
+			case 'p':
+				use_pseudo = 1;
 				break;
 			case '?':
 			default:
@@ -91,9 +97,17 @@ int main(int argc, char **argv){
 	long heads = 0;
 	long tails = 0;
 	std::random_device rng;
+	std::mt19937_64 prng(rng());
 	std::uniform_int_distribution<int> flipper(0, 1);
 	for(long i = 0; i < flips; i++){
-		if(flipper(rng)){
+		int result;
+		if(use_pseudo){
+			result = flipper(prng);
+		} else{
+			result = flipper(rng);
+		}
+
+		if(result){
 			heads++;
 			if(print_flips){
 				std::cout << "H";
