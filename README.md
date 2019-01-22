@@ -20,7 +20,7 @@ make
 
 The executables can then be found in the bin directory.
 
-##Installing
+## Installing
 
 After building, the packages can be installed with
 
