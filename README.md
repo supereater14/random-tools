@@ -1,14 +1,15 @@
-#Random-Tools
+# Random-Tools
 
-##Tools for generating and using random numbers
+## Tools for generating and using random numbers
 
-##Included tools
+## Included tools
+
 	+randomnum: Generate random numbers
 	+randomselect: Selects random items from a list
 	+shuffle: Randomly shuffles a list
 	+coinflip: Simulates random coin flips
 
-##Building
+## Building
 
 To build the packages, run
 
