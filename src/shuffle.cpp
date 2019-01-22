@@ -1,3 +1,21 @@
+/* Random-Tools Shuffle
+ *
+ * copyright 2019 Alec Hitchiner
+ *
+ * Shuffles a list of items.
+ *
+ * This program is part of the random-tools package. It takes a list of items,
+ * and prints them in a random order. The items can either be supplied as
+ * command-line arguments, or as a file. If supplied as a file, each line is
+ * treated as an item.
+ * 
+ * Usage: shuffle {-hf} {items...}
+ * Command-line options:
+ * 	-h: Prints a usage message and exits, this supercedes all other options
+ * 	-f file: Specifies a list file to use. When this option is given, items
+ * 		specified as arguments are ignored.
+ * 	A list of items may be supplied after these options.
+ */
 #include <unistd.h>
 
 #include <algorithm>

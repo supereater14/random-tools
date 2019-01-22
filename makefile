@@ -1,3 +1,18 @@
+# Random-Tools
+#
+# copyright 2019 Alec Hitchiner
+#
+# A set of tools for generating and using random numbers
+#
+# randomnum: Generates random numbers
+# randomselect: Selects random items from a list
+# shuffle: Randomly shuffles a list
+# coinflip: Simulates random coin flips
+#
+# To build, run 'make clean' 'make'
+# To install, run 'sudo make install'
+# To remove, run 'sudo make remove'
+
 CC=g++
 CFLAGS=-O3 -Wall -Wextra -pedantic
 LFLAGS=

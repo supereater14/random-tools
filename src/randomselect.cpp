@@ -1,3 +1,23 @@
+/* Random-Tools Randomselect
+ *
+ * copyright 2019 Alec Hitchiner
+ *
+ * Selects random items from a list.
+ *
+ * This program selects random items from a supplied list. The list can be
+ * specified as command-line arguments, or read from a file. The number of items
+ * to select can also be specified, and duplicates can be allowed if chosen.
+ *
+ * Usage: randomselect {-hd} {-n count} {-f file} {items...}
+ * Command-line options:
+ * 	-h: Print a usage message and exit, this supercedes all other options
+ * 	-d: Allow duplicate items (select-with-replacement), default is to not allow
+ * 		duplicate items (select-without-replacement).
+ * 	-n count: Specifies the number of items to select, default 1.
+ * 	-f file: Specifies a file to read the list of items from. If this option is
+ * 		given, items given as arguments are ignored.
+ * 	These options may be followed by a list of items.
+ */
 #include <cerrno>
 #include <climits>
 #include <cstdlib>

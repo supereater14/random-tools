@@ -1,3 +1,23 @@
+/* Random-Tools Randomnum
+ *
+ * copyright 2019 Alec Hitchiner
+ *
+ * Generates random numbers.
+ *
+ * This program generates a given number of random numbers. It can generate both
+ * integer and real numbers.
+ *
+ * Usage: randomnum {-hr} {-n count} [Lower bound] [Upper bound]
+ * Command-line options:
+ * 	-h: Print usage message and exit, this supercedes all other options
+ * 	-r: Generate real numbers, default is integers
+ * 	-n count: Specifies number of numbers to generate, default 1.
+ * 		This must be positive. When multiple numbers are generated, each will be
+ * 		on a new line.
+ * 	Lower bound: Smallest number that can be generated, inclusive
+ * 	Upper bound: Largest number that can be generated, inclusive
+ */
+
 #include <cerrno>
 #include <climits>
 #include <cmath>
@@ -11,7 +31,7 @@
 void print_usage_message(char *name){
 	std::cerr << "Usage: "
 		<< name
-		<< " {-hnr} [Lower bound] [Upper bound]\n"
+		<< " {-hr} {-n count} [Lower bound] [Upper bound]\n"
 		<< "\nOptions:\n"
 		<< "\t-h: Print usage message and exit\n"
 		<< "\t-n: Number of random numbers to generate\n"

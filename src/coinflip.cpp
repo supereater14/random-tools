@@ -1,3 +1,22 @@
+/* Random-Tools Coinflip
+ *
+ * copyright 2019 Alec Hitchiner
+ *
+ * Simulates coin flips.
+ *
+ * Simulates a given number of coin flips. The number of flips can be specified,
+ * and the sequence of flips can be printed. The total number of heads and tails
+ * can also be printed at the end.
+ *
+ * Usage: coinflip -hnr {# of flips}
+ * Command-line options:
+ * 	-h: Print a usage message and exit, this supercedes all other options
+ * 	-n: Supresses printing of coin flips, default is to print con flips using H
+ * 		and T for heads and tails.
+ * 	-r: Prints a final report of heads and tails at the end of the run
+ * 	After these options, the number of flips to perform may be given, default 1.
+ */
+
 #include <cerrno>
 #include <climits>
 #include <cstdlib>
