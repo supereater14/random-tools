@@ -4,10 +4,10 @@
 
 ## Included tools
 
-	+randomnum: Generate random numbers
-	+randomselect: Selects random items from a list
-	+shuffle: Randomly shuffles a list
-	+coinflip: Simulates random coin flips
+* randomnum: Generate random numbers
+* randomselect: Selects random items from a list
+* shuffle: Randomly shuffles a list
+* coinflip: Simulates random coin flips
 
 ## Building
 
